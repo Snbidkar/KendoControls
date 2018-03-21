@@ -1,0 +1,43 @@
+﻿@model EmployeeManagement.Models.ClassesEmp.EmpModelList
+ @using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "GetSupervisors";
+    Layout = "~/Views/Shared/_LayoutSneha.cshtml";
+}
+<script>
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("supervisorList", "Employee")',
+            dataType: "json",
+         // data:"{id:41}",
+            success: function (result) {
+                if (result) {
+                    if (result.isSuccess) {
+                        alert(result);
+                        var dropdwn=  $("#SupervisorListId").data("kendoDropDownList");
+                        dropdwn.setDataSource(result);
+                    }
+                    else {
+
+                    }
+                }
+            }
+        });
+    });
+
+ 
+
+</script>
+
+    <h2>GetSupervisors</h2>
+<body>
+    @(Html.Kendo().DropDownList()
+        .Name("SupervisorListId")
+        .DataTextField("Supervisor")
+        .DataValueField("Id")
+      // .DataSource(source => source.Read(read => read.Action("Get", "Employee")))
+        .AutoBind(false)
+       
+    )
+    </body>

@@ -1,0 +1,193 @@
+﻿@using Kendo.Mvc.UI
+@model EmployeeManagement.Models.ClassesEmp.EmpModelList
+@{
+    ViewBag.Title = "OnPageload";
+    ViewBag.dept = "departments";
+   
+    //Layout = "~/Views/Shared/_LayoutSneha.cshtml";
+}
+<style>
+    .fa-times {
+    color:red;
+    background-color:white;
+    border-color:black;
+    }
+        .fa-times :hover {
+        background-color:black;
+        color:red;
+        }
+    .fa-edit {
+        color: #2fc5cf;
+        background-color: white;
+        border-color: black;
+    }
+    /*.far fa-square
+    {
+        color:brown;
+        background-color:firebrick;
+    }*/
+
+    
+</style>
+
+<script type="text/javascript">
+
+        $("#getEmp").click(
+        function() {
+
+            var grid = $("#grid").data('kendoGrid');
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetAllEmpsDetails", "Employee")',
+                dataType: "json",
+                traditional: true,
+                success: function (result) {
+                    if (result) {
+                        if (result.isSuccess) {
+                            $("#grid").data("kendoGrid").dataSource.data(result.data);
+
+                        }
+                        else {
+
+                        }
+                    }
+                }
+            });
+        });
+
+        $("#refreshId").click(function () {
+
+
+            var grid = $("#grid").data('kendoGrid');
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetAllEmpsDetails", "Employee")',
+                dataType: "json",
+                traditional: true,
+                success: function (result) {
+                    if (result) {
+                        if (result.isSuccess) {
+                            $("#grid").data("kendoGrid").dataSource.data(result.data);
+
+                        }
+                        else {
+
+                        }
+                    }
+                }
+            });
+
+        });
+
+
+</script>
+
+
+<body>
+   
+    @(Html.Kendo().Grid<EmployeeManagement.Models.ClassesEmp.Employee>()
+                               .Name("grid")
+                               .Columns(
+                             col =>
+                             {
+                           //  col.Template(@<text></text>).Title("Nick_Name");
+                             col.Template(@<button></button>).ClientTemplate("<button id='deleteBtn' onclick='DeleteEmployee(#=Id#)'class='fas fa-times'/>").Width("50px").Title("Delete");
+                             col.Template(@<text></text>).ClientTemplate("<button id='editBtn' onclick='UpdateId(#=Id#,false)'  class='fas fa-edit'style=' color:blue'/>").Width("50px").Title("Edit");
+
+                                 col.Bound(model => model.Name).Width("100px");
+                                 col.Bound(model => model.Designation).Width("100px");
+                                 col.Bound(model => model.Department)/*.EditorTemplateName("DepartmentEditor")*/.Width("100px");//for taking dropdown inside grid
+                                 col.Bound(model => model.Gender).Width("100px").ClientTemplate("# if (Gender == 'F'){# Female #}else{# Male#}#");
+                                 col.Bound(model => model.Experience).Width("100px");
+                                 col.Bound(model => model.DateOfBirth).ClientTemplate("#= kendo.toString(kendo.parseDate(DateOfBirth), 'dd/MM/yyyy') #").Width("100px");
+                                 col.Template(@<text></text>).Title("Age").ClientTemplate("#= CalculateAge(DateOfBirth) #").Width("100px");
+                               //  col.Template(@<text></text>).Title("NickNAme").Width("100px").ClientTemplate("Sneha");
+                             col.Bound(model => model.Skills).Width("100px");
+                             col.Bound(model => model.EmailId).Width("100px");
+                             col.Template(@<text></text>).Title("ExpLevel").ClientTemplate(" #= CalculateExp(Experience) #").Width("100px");
+                                 col.Bound(model => model.ContactNo).Width("100px");
+                                 col.Bound(model => model.Supervisor).Width("100px");
+                                 col.Bound(model => model.Address).Width("100px");
+                                 //col.Bound(model => model.InsertedBy);
+                                 //col.Bound(model => model.InsertedOn).ClientTemplate("#= kendo.toString(kendo.parseDate(InsertedOn), 'dd/MM/yyyy') #");
+                                
+                             })
+                          // .Editable(e => e.Mode(GridEditMode.InCell))        //For editable mode of grid
+                          .EnableCustomBinding(true)
+                                .ToolBar(toolBar => { toolBar.Template("<a class='k-button k-button-icontext' onclick='Employee(false)' id='addBtn' href='#'><i class='fas fa-plus'></i>Register</a><button class='k-button k-button-icontext'>Select</button><br/><span style=float:right>Experience Level</span><br/><span style=float:right><i id='expLevl' class='far fa-square' style='color:red;background-color: red;'></i> less than 1 yrs </span><span style=float:right><i class='far fa-square' style='color:yellow;background-color: yellow;'></i> less than 5yrs </span><span style=float:right><i class='far fa-square' style='color:green;background-color:green;'></i> less than 10 yrs </span><span style=float:right><i class='far fa-square' style='color:blue;background-color:blue;'></i> Greater than 10 yrs </span>");
+                                    // .ToolBar(toolBar => toolBar.Custom().Text("<i class='fas fa-plus'></i> Add Employee"))
+                                 
+                                })
+
+                                .Resizable(p=>p.Columns(true))
+
+                                .Pageable(p => p.PageSizes(true))
+                                .Sortable()
+                                .Scrollable()
+                                .AutoBind(false)
+                                .Selectable(sel => sel.Mode(GridSelectionMode.Multiple)
+                                .Type(GridSelectionType.Row))
+                                .HtmlAttributes(new { style = "height:550px;" })
+
+                                .DataSource(source => source
+                                    .Ajax()
+                                // .Model(model => { model.Id(p => p.Id); model.Field(p => p.Department); })          //editable
+                                .PageSize(7)
+                                .ServerOperation(false)
+                                        )
+)
+  
+    @(Html.Kendo().Window()
+    .Name("popUpwindow")
+    //.Content(@Html.Partial("_Add",Model).ToHtmlString())
+
+    .Content(@Html.Partial("_AddNew"/*, Model*/).ToHtmlString())
+    .Draggable()
+    .Visible(false)
+    .Width(600)
+    .Title("Employee")
+     .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+    .Resizable()
+    .Animation(true)
+    )
+
+
+   <style>
+       .k-grid table {
+    width: 100%;
+    margin: 0;
+    max-width: none;
+    border-collapse: separate;
+    border-spacing: 0;
+    empty-cells: show;
+    background-color: beige;
+    border-width: 0;
+    outline: 0;
+}
+       #deleteBtn.fas.fa-times {
+           font-weight: 900;
+           align-content: center;
+       }
+   
+        #editBtn.fas.fa-edit {
+    font-family: Font Awesome\ 5 Free;
+
+    align-items: center;
+}
+        .k-window-title {
+    position: absolute;
+    left: .44em;
+    right: .44em;
+    overflow: hidden;
+    border-color: black;
+    height: 50px;
+    cursor: default;
+    text-overflow: ellipsis;
+    background-color: gray;
+    padding: 5px;
+}
+
+    </style>
+ 
+</body>
+

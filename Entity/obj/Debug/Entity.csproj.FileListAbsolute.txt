@@ -1,0 +1,5 @@
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\Entity\bin\Debug\Entity.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\Entity\bin\Debug\Entity.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\Entity\obj\Debug\Entity.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\Entity\obj\Debug\Entity.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache

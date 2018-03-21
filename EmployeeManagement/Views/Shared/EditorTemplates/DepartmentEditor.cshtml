@@ -1,0 +1,15 @@
+﻿@using Kendo.Mvc.UI;
+@*@model EmployeeManagement.Models.ClassesEmp.EmpModelList*@
+
+
+@(Html.Kendo().DropDownList()
+    .Name("Department")
+    .OptionLabel("--Select--")
+    .DataTextField("Name")
+    .DataValueField("Id")
+    .BindTo(ViewBag.dept)
+)
+
+<script>
+    console.log(ViewBag.dept);
+</script>

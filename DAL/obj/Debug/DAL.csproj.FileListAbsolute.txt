@@ -1,0 +1,7 @@
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DAL\bin\Debug\DAL.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DAL\bin\Debug\DAL.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DAL\bin\Debug\Entity.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DAL\bin\Debug\Entity.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DAL\obj\Debug\DAL.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DAL\obj\Debug\DAL.pdb

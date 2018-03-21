@@ -1,0 +1,210 @@
+﻿@using Kendo.Mvc.UI
+@model EmployeeManagement.Models.ClassesEmp.EmpModelList
+
+ @*@model List<EmployeeManagement.Models.ClassesEmp.LookupData>*@
+
+
+
+    <link rel="stylesheet" href="~/Content/kendo/kendo.common.min.css">
+    <link rel="stylesheet" href="~/Content/kendo/kendo.default.min.css">
+    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+
+    <body>
+        <form id="addForm" action="~/Employee/Create" method="post">
+            <table>
+         
+                <tr>
+                    <td>
+                        <label for="name">Name : </label>
+                    </td>
+                    <td>
+                         @(Html.Kendo().TextBoxFor(model => model.Emp.Name)
+                         .Value(Model.Emp.Name)
+                        // .Name("nametxt")                 
+                           )
+                     </td>
+                </tr>
+          
+                <tr>
+                    <td>
+                        <label for="designationId">Designation : </label>
+                    </td>
+                    <td>
+                       @(Html.Kendo().DropDownListFor(model => model.Emp.DesgnationId)
+            //  .Name("desgDropdown")
+            .HtmlAttributes(new { style = "130px" })
+                         .DataTextField("Name")
+                         .DataValueField("Id")
+                         .Text("Select Designation")
+                         .BindTo(Model.DesnList)
+                         .OptionLabel("select department")
+
+                    )
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label for="departmentId">Department : </label></td>
+                    <td>@(Html.Kendo().DropDownListFor(model => model.Emp.DepartmentId)
+                         // .Name("deptDropdown")
+                         .HtmlAttributes(new { style = "130px" })
+                         .DataTextField("Name")
+                         .DataValueField("Id")
+                         .Text("Select Department")
+                         .BindTo(Model.DeptList)
+                         .OptionLabel("select department")
+
+                    )</td>
+                </tr>
+                <tr>
+                    <td><label for="supervisorId"> Supervisor : </label></td>
+                    <td>@(Html.Kendo().DropDownListFor(model => model.Emp.SupervisorId)
+                         // .Name("supervisorDropdown")
+                         .HtmlAttributes(new { style = "130px" })
+                         .DataTextField("Supervisor")
+                         .DataValueField("Id")
+                         .Text("Select super")
+                         .BindTo(Model.SupervisorList)
+                         .OptionLabel("select supervisor")
+                    )</td>
+                </tr>
+                <tr>
+                    <td><label for="gender">Gender : </label></td>
+                    <td>@(Html.Kendo().RadioButtonFor(model => model.Emp.Gender)
+                            .Name("Gender")
+                            .Value("F")
+                            .HtmlAttributes(new { @name = "Gender" })
+                            .Label("Female")
+                    )
+
+                    @(Html.Kendo().RadioButtonFor(model => model.Emp.Gender)
+                // .ToClientTemplate("<input type=radio>")
+                            .Name("Gender")
+                            .Value("M")
+                            .Checked(true)
+                            .HtmlAttributes(new { @name = "Gender" })
+                            .Label("Male")
+
+                    )</td>
+                </tr>
+                <tr>
+                    <td><label for="dob"> Date Of Birth : </label></td>
+                    <td>@(Html.Kendo().DatePickerFor(model => model.Emp.DateOfBirth)
+                   // .Name("dobtxt")
+                   .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
+                //.BindTo()
+
+                    )</td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="skills">Skills : </label>
+                    </td>
+                    <td>
+                        <input type="button" id="AddSkill" value="Add ">
+                        <br /><br />
+                        <div id="skillmain">
+                            <div>
+                                @(Html.Kendo().TextBoxFor(model => model.Emp.Skills)
+                   //.Name("dobtxt")
+                   .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
+                        //.BindTo()
+                                )
+                                </div>
+                            </div>
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>
+                        <label>Experience : </label>
+                    </td>
+                    <td>
+                        @(Html.Kendo().NumericTextBoxFor(model => model.Emp.Experience)
+                    .Value(Model.Emp.Experience)
+                //.Name("exptxt")
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="emailId">Email Id :</label>
+                    </td>
+                    <td>
+                        @(Html.Kendo().TextBoxFor(model => model.Emp.EmailId)
+                //.Name("EmailIdtxt")
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="address">Address : </label>
+                    </td>
+                    <td>
+                        @(Html.Kendo().TextBoxFor(model => model.Emp.Address)
+                //.Name("adressdtxt")
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="contactNo">Contact No: </label>
+                    </td>
+                    <td>
+                        @(Html.Kendo().MaskedTextBoxFor(model => model.Emp.ContactNo)
+                  //.Name("phone_number")
+                  .Mask("(+90) 000-000-0000")
+                //.Value("90 123 4567")
+                        )
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="insertedBy"> Inserted By : </label>
+                    </td>
+                    <td>
+                        @(Html.Kendo().TextBoxFor(model => model.Emp.InsertedBy)
+                //.Name("insertedbytxt")
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </table>
+            <div>
+                @(Html.Kendo().Button()
+              .Name("textButton")
+              .HtmlAttributes(new { Type = "Submit" })
+              .Content("Add")
+
+                )
+            </div>
+        </form>
+
+
+    </body>
+
+
+@*<label for="gender">Gender : </label>
+@(Html.Kendo().DropDownListFor(model => model.Emp.Gender)
+                  .DataTextField("TextData")
+                  .DataValueField("Value")
+                  .BindTo(new List<string>() {
+                       "F",
+                       "M" });
+
+})*@
+
+<script>
+                var phonesDiv = $('#skillmain');
+                $('#AddSkill').click(function () {
+                    var skillNew = $('div:eq(0)', phonesDiv).clone();     //1st div
+                    $('input', skillNew).val('');
+                    phonesDiv.append('<br /><div style="clear:both;" />')
+                     .append(skillNew)
+                });
+</script>

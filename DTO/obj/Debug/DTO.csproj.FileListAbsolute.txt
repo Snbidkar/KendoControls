@@ -1,0 +1,7 @@
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DTO\bin\Debug\DTO.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DTO\bin\Debug\DTO.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DTO\bin\Debug\Entity.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DTO\bin\Debug\Entity.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DTO\obj\Debug\DTO.csprojResolveAssemblyReference.cache
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DTO\obj\Debug\DTO.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\DTO\obj\Debug\DTO.pdb

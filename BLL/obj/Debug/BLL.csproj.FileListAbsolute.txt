@@ -1,0 +1,11 @@
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\bin\Debug\BLL.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\bin\Debug\BLL.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\bin\Debug\DAL.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\bin\Debug\DTO.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\bin\Debug\Entity.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\bin\Debug\DAL.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\bin\Debug\DTO.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\bin\Debug\Entity.pdb
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\obj\Debug\BLL.dll
+D:\IN-SBIDKAR\C# Practice\EmpMangementSys\BLL\obj\Debug\BLL.pdb

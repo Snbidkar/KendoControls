@@ -1,0 +1,750 @@
+﻿@using Kendo.Mvc.UI
+@model EmployeeManagement.Models.ClassesEmp.EmpModelList
+@{
+    var countryData = ViewBag.country;
+
+    //Layout = "~/Views/Shared/_LayoutSneha.cshtml";
+}
+<style>
+    div.k-window-content {
+        position: relative;
+        height: 100%;
+        padding: .58em;
+        overflow: auto;
+        outline: 0;
+        background-color: moccasin;
+    }
+
+    .k-window-title {
+        position: absolute;
+        left: .44em;
+        right: .44em;
+        overflow: hidden;
+        border-color: black;
+        cursor: default;
+        text-overflow: ellipsis;
+        background-color: darkgray;
+    }
+
+    #Add.k-button {
+        color: #2e2e2e;
+        border-color: #c5c5c5;
+        background-color: dodgerblue;
+    }
+
+    #Cancel.k-button {
+        color: #2e2e2e;
+        border-color: #c5c5c5;
+        background-color: dodgerblue;
+        background-color: red;
+    }
+    #skillsBtn {
+    background-color: darkgray;
+}
+</style>
+
+<body>
+     <table id="tblData">
+
+
+            <tr id="btnsId">
+                <td>
+                    @(Html.Kendo().Button().Name("saveBtn").Content("Save").HtmlAttributes(new { style = "background-color: cornflowerblue;" })
+                        //.Events(e => e.Click("validateFields"))
+                    //.Events(e => e.Click("SaveEmp"))
+                    //
+
+                    )
+                   
+                </td>
+                <td>
+                    @(Html.Kendo().Button().Name("Cancel").Content("Cancel").Events(e => e.Click("Cancel")))
+                </td>
+
+            </tr>
+            <tr id="IDTxt" class="hidden">
+                <td>
+                    <label for="Id">Id : </label>
+                </td>
+                <td>
+                    @(Html.Kendo().TextBox()
+                          //.Value(result)
+                          .Name("Idtxt")
+                    )
+                    @(Html.Kendo().TextBox().Name("designationIdtxt"))
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <label for="name" >Name : </label>
+                </td>
+                <td>
+                    @(Html.Kendo().TextBoxFor(m=>m.Emp.Name)
+                          .Name("Nametxt")
+                      .HtmlAttributes(new { placeholder = "Full name"})
+                      
+                    ) 
+                </td>
+                
+                <td><label for="departmentId">Department: </label></td>
+                <td>
+                    @(Html.Kendo().DropDownListFor(m=>m.Emp.Department).Name("DepartmentIdList").HtmlAttributes(new { style = "100px" })
+                        .DataTextField("Name")
+                        .DataValueField("Id").BindTo(Model.DeptList).OptionLabel("select department")
+                    )
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="emailId">Email Id:</label>
+                </td>
+                <td>
+                    @(Html.Kendo().TextBoxFor(m=>m.Emp.EmailId).Name("EmailIdtxt").Value(""))
+
+
+                    <span id="nameSpan" class="val"></span>
+                </td>
+                <td>
+                    <label for="designationId">Designation: </label>
+                </td>
+                <td>
+                    @(Html.Kendo().AutoCompleteFor(m=>m.Emp.Designation).Name("DesgnationIdList").HtmlAttributes(new { style = "130px" })
+                        
+     .DataTextField("Name").BindTo(Model.DesnList)/*.DataValueField("Id")*//*.OptionLabel("select Designation")*/
+     .Events(e => { e.Select("GetDesignation"); }
+                     )
+                    )
+                   
+
+                </td>
+            </tr>
+            
+            <tr>
+               
+                <td><label for="supervisorId"> Supervisor: </label></td>
+                <td>
+                    @(Html.Kendo().DropDownListFor(m=>m.Emp.Supervisor).Name("SupervisorIdList")
+                     .DataTextField("Supervisor").DataValueField("Id")
+                     .OptionLabel("select supervisor")
+                     .HtmlAttributes(new { style = "130px" })
+                    )
+                  
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="gender">Gender: </label>
+                </td>
+                <td>
+                    @(Html.Kendo().RadioButtonFor(m=>m.Emp.Gender).Name("Gendertxt1").Value("F").Label("Female").HtmlAttributes(new {@name= "Gendertxt" , style = "width:220px" }))
+                  
+                    @(Html.Kendo().RadioButtonFor(m=>m.Emp.Gender).Name("Gendertxt2").Value("M").Label("Male").HtmlAttributes(new { @name = "Gendertxt", style = "width:220px" }))
+                  
+                </td>
+                <td><label for="dob"> Date Of Birth: </label></td>
+                <td>
+                    @(Html.Kendo().DatePickerFor(m=>m.Emp.DateOfBirth).Name("DateOfBirthtxt").Max(DateTime.Now).Min(DateTime.MinValue))
+
+                </td>
+            </tr>
+            <tr>
+                
+            </tr>
+
+            
+
+            <tr>
+                <td>
+                    <label>Experience: </label>
+                </td>
+                <td>
+                    @(Html.Kendo().NumericTextBoxFor(m=>m.Emp.Experience).Name("Experiencetxt").Value(Model.Emp.Experience).Decimals(1).Min(0).Max(10).Spinners(false).Format("n2"))
+                  
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <label for="contactNo">Contact No: </label>
+                </td>
+                <td>
+                    @(Html.Kendo().TextBoxFor(m=>m.Emp.ContactNo).Name("ContactNotxt"))
+
+                </td>
+            </tr>
+        
+            <tr colspan="2">
+                <td>
+                    <label for="skills">Skills: </label>
+                </td>
+                <td>
+                    <div class="input-fieldTxt">
+                      
+                        @(Html.Kendo().TextBoxFor(m=>m.Emp.Skills).Name("Skillstxt"))@(Html.Kendo().Button().Name("skillsBtn").Content("Add").HtmlAttributes(new { }))
+                       
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr id="insertedttxt" class="hidden">
+                <td>
+                    <label for="insertedBy"> Inserted By : </label>
+                </td>
+                <td>
+                    @(Html.Kendo().TextBox().Name("InsertedBytxt"))
+                </td>
+            </tr>
+
+            <tr class="hidden" id="insertedOnRow">
+                <td>
+                    <label for="insertedOnDate">Record Inserted On: </label>
+                </td>
+                <td>
+                    @(Html.Kendo().DatePicker().Name("InsertedOntxt"))
+
+                </td>
+            </tr>
+
+            <tr id="updatedttxt" class="hidden">
+                <td>
+                    <label for="UpdatedBy"> Updated By : </label>
+                </td>
+                <td>
+                    @(Html.Kendo().TextBox().Name("UpdatedBytxt"))
+                </td>
+            </tr>
+
+            <tr class="hidden" id="updatedOnRow">
+                <td>
+                    <label for="updatedOnDate">Record Updated On: </label>
+                </td>
+                <td>
+                    @(Html.Kendo().DatePicker().Name("UpdatedOntxt"))
+
+
+                </td>
+            </tr>
+         <tr>
+             <td>
+                 <label>Country:</label>
+             </td>
+             <td>
+                 @(Html.Kendo().DropDownList()
+        .Name("country")
+        .DataTextField("CountryName")
+        .DataValueField("countryId")
+       // .AutoBind(false)
+        .OptionLabel("--select Country--")
+        .Events(e =>
+
+            e.Select("SelectState")
+
+       )
+       .DataSource(s=>s.Read(r=>r.Action("getCounty","CascadeList")))
+      // .BindTo("")
+   // .BindTo(ViewBag.country)
+
+                 )
+             </td>
+         </tr>
+         <tr>
+             <td>
+                 <label>States:</label>
+             </td>
+             <td>
+                 @(Html.Kendo().DropDownList()
+        .Name("states")
+        .DataTextField("stateName")
+        .DataValueField("stateId")
+        .AutoBind(false)
+        .OptionLabel("--select State--")
+        .Events(e =>
+
+            e.Select("SelectCity")
+
+       )
+                 //.BindTo(ViewBag.country)
+
+                 )
+             </td>
+             <td>
+                 <label for="address">Address: </label>
+             </td>
+             <td>
+                 @(Html.Kendo().TextBoxFor(m => m.Emp.Address).Name("Addressdtxt"))
+
+             </td>
+         </tr>
+         <tr>
+             <td>
+                 <label>Cities:</label>
+             </td>
+             <td>
+                 @(Html.Kendo().DropDownList()
+                    .Name("city")
+                    .DataTextField("cityName")
+                    .DataValueField("cityId")
+                    .AutoBind(false)
+                    .OptionLabel("--select City--")
+                   // .Events(e=>e.Select("TakeAddress"))
+                 )
+             </td>
+         </tr>
+
+        </table>
+</body>
+<script>
+    $("#city").change(function () {
+        var data1 = TakeAddress();
+        $("#Addressdtxt").val(data1);
+    })
+       
+    function TakeAddress() {
+        //var dataItem = this.dataItem(e.item);
+        var country = $("#country").data("kendoDropDownList").text();
+        var State = $("#states").data("kendoDropDownList").text();
+        // var city = dataItem.cityName;
+        var city1 = $("#city").data("kendoDropDownList").text();             
+        return country + "," + State + "," + city1;
+    };
+
+
+    function SelectState(e) {
+        //var div = $("#mainDropDown");
+
+        var dataItem = this.dataItem(e.item);
+        // alert(dataItem.countryId)
+        var Id = dataItem.countryId;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetStates","CascadeList")',
+            dataType: "json",
+            contentType: 'application/json',
+            data: "{id:" + Id + "}",
+            success: function (result) {
+                var dropdwnStates = $("#states").data("kendoDropDownList");
+                dropdwnStates.setDataSource(result.data);
+            }
+        });
+    }
+    function SelectCity(e) {
+        var dataItem = this.dataItem(e.item);
+        var Id = dataItem.stateId;
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCity", "CascadeList")',
+            dataType: "json",
+            contentType: 'application/json',
+            data: "{id:" + Id + "}",
+            success: function (result) {
+                var dropdownCity = $("#city").data("kendoDropDownList");
+                dropdownCity.setDataSource(result.data);
+            }
+        });
+    }
+   
+        var validator = $("#tblData").kendoValidator().data("kendoValidator");
+        
+        $('#saveBtn').on('click', function (e) {
+            alert(e.type);
+            e.preventDefault();
+            if (validator.validate()) {
+                SaveEmp();
+            }
+            else {
+              
+               // alert("yo " + count);
+                return false;
+            }
+        });
+   
+
+    </script>
+<script type="text/javascript">
+
+        function getSkills() {
+            var skill = "";
+            var input = $('input[name="Skillstxt"]');
+            (input).each(function (index) {
+                skill += $(this).val() + ",";
+            })
+
+            //console.log("Skills: " + skill.slice(0,-1));
+            return skill.slice(0, -1);
+        }
+
+
+
+
+        var maxField = 1;
+        $("#skillsBtn").on('click', function () {
+
+            if (maxField < 5) {
+
+                $('.input-fieldTxt').append('<div id=' + maxField + '><input class=k-textbox id=Skillstxt name=Skillstxt><button id=removeTxt class="removeClass"><i class="fas fa-times" style="color:black"></i></button></div>')
+                maxField++;
+            }
+
+        });
+
+
+        $('.input-fieldTxt').on("click", "#removeTxt", function () {
+            $(this).parent('div').remove();
+            maxField--;
+        });
+
+
+
+        function updateSkills(skill) {
+
+            var temp = new Array();
+            temp = skill.split(",");
+            // alert(temp.length);
+            var main = $('.input-fieldTxt');
+            var len = temp.length;
+            $("#Skillstxt").val(temp[0]);
+            for (var i = 1; i < len; i++) {
+                // alert(temp[i]);
+                $(main).append('<div id=' + i + '><br/><input class=k-textbox id=Skillstxt name=Skillstxt value=' + temp[i] + '><button id=removeTxt class="removeClass" style="color:black">remove</button></div>')
+            }
+            return 0;
+
+        }
+        function updateAddress(addresss)
+        {
+            var temp = new Array();
+            temp = addresss.split(",");
+            //for (var i = 0; i < temp.length; i++)
+            //{
+            //    alert(temp[i]);
+            //}
+            $("#country").data("kendoDropDownList").value(temp[0]);
+            //$("#states").data("kendoDropDownList").value(temp[1]);
+            //$("#city").data("kendoDropDownList").value(temp[2]);
+        }
+        function GetDesignation(e) {
+            var dataItem = this.dataItem(e.item.index());
+            alert("Desig==" + designationId);
+            var designationId = dataItem.Id;
+            $("#designationIdtxt").val(designationId)
+            //  alert("Designation==="+desigName);
+
+        }
+
+        function Employee(mode) {
+            var grid = $("#grid").data("kendoGrid");
+
+            var wnd = $("#popUpwindow").data("kendoWindow");
+            wnd.open();
+            wnd.center();
+            Disabled(mode);
+
+            Clear();
+            $("#saveBtn").show();
+
+        }
+
+        $("#addBtn").click(function () {                                    //call to load updated supervisors
+            var id = 0;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("supervisorList")',
+                dataType: "json",
+                contentType: 'application/json',
+                data: "{ID:" + id + "}",
+                success: function (result) {
+                    if (result.isSuccess == true) {
+                        var dropdwnSrc = $("#SupervisorIdList").data("kendoDropDownList");
+                        dropdwnSrc.setDataSource(result.data);
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                }
+            }
+            );
+        });
+
+        function SaveEmp() {
+            var modelData = {
+                Id: $("#Idtxt").val(),
+                Name: $('#Nametxt').val(),
+                DesgnationId: $('#designationIdtxt').val(),
+                Gender: $('input[name=Gendertxt]:checked').val(),
+                DepartmentId: $('#DepartmentIdList').val(),
+                Experience: $('#Experiencetxt').val(),
+                Skills: getSkills(),
+                EmailId: $('#EmailIdtxt').val(),
+                ContactNo: $('#ContactNotxt').val(),
+                SupervisorId: $('#SupervisorIdList').val(),
+                DateOfBirth: $('#DateOfBirthtxt').val(),
+                Address: $('#Addressdtxt').val(),
+               // Address:TakeAddress()
+            };
+            console.log(modelData);
+            var gender = $('input[name=Gendertxt]:checked').length;
+            var gen = $('input[name=Gendertxt]:checked');
+            console.log(gender + " =  " + gen.val());
+            $.ajax({
+                type: "POST",
+                contentType: 'application/json',
+                data: "{empObj:" + JSON.stringify(modelData) + "}",
+                url: "/Employee/Save",
+                success: function (out) {
+                    if (out.isSuccess == true) {
+                        alert("you saved record");
+                        refreshGrid();
+                        Clear();
+                    }
+                    else {
+                        alert("Success False statment");
+                    }
+                },
+                error: function (result) {
+                    alert(result.fail);
+                }
+            });
+        }
+
+        function UpdateId(Id, mode) {
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("supervisorList")',
+                dataType: "json",
+                contentType: 'application/json',
+                data: "{ID:" + Id + "}",
+                success: function (result) {
+                    if (result.isSuccess == true) {
+                        var dropdwnSrc = $("#SupervisorIdList").data("kendoDropDownList");
+                        dropdwnSrc.setDataSource(result.data);
+                        //call for getting respective employee data
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("GetEmp")',
+                            dataType: "json",
+                            contentType: 'application/json',
+                            data: "{ID:" + Id + "}",
+                            success: function (result) {
+                                if (result.isSuccess == true) {
+                                    Employee();
+                                    Disabled(mode);
+                                    // console.log(result.data);
+                                    var obj = {
+                                        Id: result.data.Id,
+                                        Name: result.data.Name,
+                                        Experience: result.data.Experience,
+                                        Skills: result.data.Skills,
+                                        ContactNo: result.data.ContactNo,
+                                        Gender: result.data.Gender,
+                                        Address: result.data.Address,
+                                        EmailId: result.data.EmailId,
+                                        DesgnationId: result.data.DesgnationId,
+                                        Designation: result.data.Designation,
+                                        DepartmentId: result.data.DepartmentId,
+                                        SupervisorId: result.data.SupervisorId,
+                                        DateOfBirth: result.data.DateOfBirth
+                                    }
+                                    SetData(obj);
+                                }
+
+                                else {
+                                    alert(result.message);
+                                }
+                            },
+                            error: function (result) {
+                                alert("Something going wrong ");
+                            }
+                        });
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                }
+            }
+                 );
+
+        }
+
+        $("#grid").on("dblclick", "tr", function () {
+            var gview = $("#grid").data("kendoGrid");                    //Getting selected item
+            var selectedItem = gview.dataItem(gview.select());               //accessing selected rows data
+
+            var selectedData = {
+                Id: selectedItem.Id,
+                Name: selectedItem.Name,
+                DesgnationId: selectedItem.DesgnationId,
+                Designation: selectedItem.Designation,
+                Gender: selectedItem.Gender,
+                DepartmentId: selectedItem.DepartmentId,
+                Experience: selectedItem.Experience,
+                Skills: selectedItem.Skills,
+                EmailId: selectedItem.EmailId,
+                ContactNo: selectedItem.ContactNo,
+                SupervisorId: selectedItem.SupervisorId,
+                DateOfBirth: selectedItem.DateOfBirth,
+                Address: selectedItem.Address,
+            }
+            Employee(true);
+            SetData(selectedData);
+            //  console.log(selectedData);
+            $("#saveBtn").hide();
+            $(".removeClass").hide();
+        });
+
+        function refreshGrid() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetAllEmpsDetails", "Employee")',
+                dataType: "json",
+                traditional: true,
+                success: function (result) {
+                    if (result) {
+                        if (result.isSuccess) {
+                            $("#grid").data("kendoGrid").dataSource.data(result.data);
+                        }
+                        else {
+
+                        }
+                    }
+                }
+            });
+
+        }
+        function SetData(setdata) {
+            $("#designationIdtxt").val(setdata.DesgnationId);
+            $("#Idtxt").val(setdata.Id);
+            $("#Nametxt").val(setdata.Name);
+            $("#Experiencetxt").data("kendoNumericTextBox").value(setdata.Experience);
+            //$("#Skillstxt").val(setdata.Skills);
+            updateSkills(setdata.Skills);
+            $("#ContactNotxt").val(setdata.ContactNo);
+            $("input[name=Gendertxt][value=" + setdata.Gender + "]").prop('checked', true);
+            $("#Addressdtxt").val(setdata.Address);
+            updateAddress(setdata.Address);
+            $("#EmailIdtxt").val(setdata.EmailId);
+            $("#DesgnationIdList").data("kendoAutoComplete").value(setdata.Designation);
+            $("#DepartmentIdList").data("kendoDropDownList").value(setdata.DepartmentId);
+            $("#SupervisorIdList").data("kendoDropDownList").value(setdata.SupervisorId);
+            $("#DateOfBirthtxt").val(kendo.toString(kendo.parseDate(setdata.DateOfBirth), 'MM/dd/yyyy'));
+        }
+
+        function DeleteEmployee(Id) {
+            console.log(Id);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DeleteGet")',
+                dataType: "json",
+                contentType: 'application/json',
+                data: "{id:" + Id + "}",
+                success: function (result) {
+                    if (result.isSuccess) {
+                        alert("Deleted Record");
+                        refreshGrid();
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                },
+                error:
+                    function (result) {
+                        alert("You can  not Delete record");
+                    }
+            });
+
+        }
+
+
+        function Clear() {
+            $(".input-fieldTxt div").remove();
+            maxField = 1;
+            $("#designationIdtxt").val('');
+            $("#Nametxt").val('');
+            $("#Experiencetxt").data("kendoNumericTextBox").value('');
+            $("#Skillstxt").val('');
+
+            $("#ContactNotxt").val('');
+            $("input[name=Gendertxt]").removeAttr("checked");
+            $("#Addressdtxt").val('');
+            $("#EmailIdtxt").val('');
+            $("#DesgnationIdList").data("kendoAutoComplete").value('')
+            $("#DepartmentIdList").data("kendoDropDownList").value('');
+            $("#SupervisorIdList").data("kendoDropDownList").value('');
+            $("#country").data("kendoDropDownList").value('');
+            $("#states").data("kendoDropDownList").value('');
+            // var city = dataItem.cityName;
+            $("#city").data("kendoDropDownList").value('');
+            $("#DateOfBirthtxt").val('');
+            $(".k-widget.k-tooltip-validation").remove();
+        }
+
+        function Disabled(mode) {
+            $('input').attr('readonly', mode);
+            $("#DesgnationIdList").data("kendoAutoComplete").readonly(mode);
+            $("#SupervisorIdList").data("kendoDropDownList").readonly(mode);
+            $("#DepartmentIdList").data("kendoDropDownList").readonly(mode);
+            $("#Experiencetxt").data("kendoNumericTextBox").readonly(mode);
+            $("#DateOfBirthtxt").data("kendoDatePicker").readonly(mode);
+            $('input[name=Gendertxt]').attr('disabled', mode);
+        }
+        function Cancel() {
+
+            var wnd = $("#popUpwindow").data("kendoWindow");
+            wnd.close();
+
+        }
+        function CalculateAge(dob) {
+            DOB = kendo.toString(kendo.parseDate(dob));
+            var today = new Date();
+            var age = "";
+            var month = 0
+            var year = today.getFullYear() - DOB.getFullYear();
+            var m = today.getMonth() - DOB.getMonth();
+            var d = today.getDay() - DOB.getDay();
+
+            if (m < 0) {
+                year = year - 1;
+                month = 12 + m;
+            }
+            else if (m >= 0) {
+                month = m;
+            }
+            //    return $(year > 0 && month > 0) ? (year + "years, " + month + "months") :  $(year == 0 && month > 0)? $(month + "months") : $(month == 0 && year > 0) ? (year + "years") : "b";
+            if (year > 0 && month > 0) {
+                return year + " years, " + month + " months";
+            }
+            if (year == 0 && month > 0) {
+                return month + " months";
+            }
+            if (month == 0 && year > 0)
+                return year + " years";
+            else
+                return "";
+
+        }
+
+
+        function CalculateExp(exp) {
+            if (exp < 1 || exp == 1) {
+                return "<i id='expLevl' class='far fa-square' style='color:red;background-color: red;'></i>";
+            }
+            if (exp > 1 && exp <= 5) {
+                return "<i id='expLevl' class='far fa-square' style='color:yellow;background-color: yellow '></i>";
+            }
+            if (exp > 5 && exp < 10) {
+                return "<i id='expLevl' class='far fa-square' style='background-color: green;color:green'></i>";
+            }
+            if (exp >= 10) {
+                return "<i id='expLevl' class='far fa-square' style='color:blue;background-color: blue'></i>";
+            }
+        }
+
+   
+</script>

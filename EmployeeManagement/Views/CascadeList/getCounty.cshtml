@@ -1,0 +1,114 @@
+﻿@using Kendo.Mvc.UI;
+@model EmployeeManagement.Models.ClassesEmp.CountryList
+
+@{
+   // var listData= ViewBag.country;
+    Layout = "~/Views/Shared/_cascadeLayout.cshtml";
+}
+
+<body>
+    @*@foreach (var data in ViewBag.country)
+        {
+          <p>@data.CountryName</p>
+        }*@
+   <table>
+       <tr><td>
+           <label>Country:</label>
+           </td>
+           <td>
+@(Html.Kendo().DropDownList()
+        .Name("country")
+        .DataTextField("CountryName")
+        .DataValueField("countryId")
+        .AutoBind(false)
+        .OptionLabel("--select Country--")
+        .Events(e =>
+        
+            e.Select("SelectState")
+           
+       )
+    .BindTo(ViewBag.country)
+    
+)
+               </td>
+        </tr>
+   <tr>
+       <td>
+           <label>States:</label>
+       </td>
+       <td>
+   @(Html.Kendo().DropDownList()
+        .Name("states")
+        .DataTextField("stateName")
+        .DataValueField("stateId")
+        .AutoBind(false)
+        .OptionLabel("--select State--")
+        .Events(e =>
+
+            e.Select("SelectCity")
+
+       )
+    //.BindTo(ViewBag.country)
+
+)
+           </td>
+       </tr>
+       <tr>
+           <td>
+               <label>Cities:</label>
+           </td>
+           <td>
+               @(Html.Kendo().DropDownList()
+                    .Name("city")
+                    .DataTextField("cityName")
+                    .DataValueField("cityId")
+                    .AutoBind(false)
+                    .OptionLabel("--select City--")
+               )
+           </td>
+       </tr>
+
+       </table>
+</body>
+<script>
+    function SelectState(e) {
+        //var div = $("#mainDropDown");
+       
+        var dataItem = this.dataItem(e.item);
+       // alert(dataItem.countryId)
+        var Id = dataItem.countryId;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetStates")',
+            dataType: "json",
+            contentType: 'application/json',
+            data: "{id:" + Id + "}",
+            success: function (result) {
+                var dropdwnStates = $("#states").data("kendoDropDownList");
+                dropdwnStates.setDataSource(result.data);
+            }
+        });
+    }
+    function SelectCity(e)
+    {
+        var dataItem = this.dataItem(e.item);
+        var Id = dataItem.stateId;
+        
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCity")',
+            dataType: "json",
+            contentType: 'application/json',
+            data:"{id:"+Id+"}",
+            success: function (result)
+            {
+                var dropdownCity = $("#city").data("kendoDropDownList");
+                dropdownCity.setDataSource(result.data);
+            }
+
+
+        });
+    }
+    @*// (div).append("@(Html.Kendo().DropDownList().Name("States"))")
+        (div).append('<select class="k-dropdown-wrap"></select>');*@
+    </script>

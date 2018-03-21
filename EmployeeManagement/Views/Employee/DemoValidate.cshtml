@@ -1,0 +1,43 @@
+﻿@*@using Kendo.Mvc.UI
+@model EmployeeManagement.Models.ClassesEmp.Employee
+@{
+    ViewBag.Title = "DemoValidate";
+    Layout = "~/Views/Shared/_LayoutSneha.cshtml";
+}
+
+<h2>DemoValidate</h2>
+
+@if (ViewData.ModelState.IsValid)
+{
+    if (ViewBag.Name == null)
+    {
+    Name: @ViewBag.Name;
+    Designation:@ViewBag.Designation;
+    }
+}
+
+    }
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Employee</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model =>model.Em)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}*@
